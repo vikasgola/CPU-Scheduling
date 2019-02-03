@@ -31,6 +31,7 @@ vector<process> readFile(string input_filename) {
         words >> temp_process.priority;
         words >> temp_process.share;
         temp_process.mark = false;
+        temp_process.waiting_time = 0;
         int flag = 0;
         // Read and print each word.
         while (words >> word) {
