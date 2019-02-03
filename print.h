@@ -19,7 +19,7 @@ void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk 
     system("clear");
 
     if(clk != -1){
-        print("\033[1;31m clock: "+to_string(clk)+"\n");
+        print("\t    \033[1;32m clock: "+to_string(clk)+"\t\n");
         print("\033[0m");
     }
 
@@ -52,7 +52,7 @@ void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk 
             print("-\t");
         }
         if (i < comp.size()) {
-            if (comp[i].mark) print("\033[1;36m");
+            print("\033[1;32m");
             print(comp[i].pid);
             print("\t\033[0m");
         } else {

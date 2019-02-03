@@ -1,6 +1,8 @@
 #include "fcfs.h"
 #include "print.h"
 #include "priority.h"
+#include "sjf.h"
+#include "roundrobin.h"
 #include "read.h"
 #include "structures.h"
 
@@ -19,7 +21,7 @@ void output() {
 }
 
 void CPU() {
-    priority(process_CPU, process_completed, process_CPU, process_input,
+    roundrobin(process_CPU, process_completed, process_CPU, process_input,
              process_output, clk);
 }
 
@@ -29,15 +31,14 @@ void startProcessing(vector<process> &tprocess_list) {
         if (!tprocess_list.empty() && tprocess_list[0].arrival_time == clk) {
             if (tprocess_list[0].jobs[0].type == 'C') {
                 process_CPU.push_back(tprocess_list[0]);
-                cout << "pushed CPU" << endl;
             } else if (tprocess_list[0].jobs[0].type == 'I') {
                 process_input.push_back(tprocess_list[0]);
             } else if (tprocess_list[0].jobs[0].type == 'O') {
                 process_output.push_back(tprocess_list[0]);
             }
 
-            table(process_CPU, process_input, process_output, process_completed, clk);
             tprocess_list.erase(tprocess_list.begin());
+            table(process_CPU, process_input, process_output, process_completed, clk);            
         }
         input();
         output();

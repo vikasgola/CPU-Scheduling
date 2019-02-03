@@ -1,17 +1,29 @@
-#ifndef PRIORITY_H
-#define PRIORITY_H
-#include<vector>
-#include<unistd.h>
+#ifndef ROUND_ROBIN_H
+#define ROUND_ROBIN_H
+#include <unistd.h>
+#include <vector>
 #include<algorithm>
 #include "print.h"
 #include "structures.h"
 
-void priority(vector<process> &work, vector<process> &process_completed,vector<process> &process_CPU, 
-    vector<process> &process_input,vector<process> &process_output, int &clk){
+#define MAX_ROBIN 3
+
+void roundrobin(vector<process> &work, vector<process> &process_completed,
+          vector<process> &process_CPU, vector<process> &process_input,
+          vector<process> &process_output, int &clk) {
+    static int working_on = 0;
+    static int round_robin_time = 0;
     if (!work.empty()) {
         work[0].mark = false;
-        if(&work == &process_CPU)
-            sort(work.begin(), work.end(), compare_priority);    
+        if(&work == &process_CPU){
+            swap(work[0], work[working_on]);
+            round_robin_time++;
+            if(round_robin_time == MAX_ROBIN){
+                round_robin_time = 0;
+                working_on += 1;
+                working_on %= work.size();
+            }
+        }    
         work[0].mark = true;
         work[0].jobs[0].burst_time--;
         table(process_CPU, process_input, process_output, process_completed, clk);
@@ -21,7 +33,7 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
             }
         }
         if (work[0].jobs[0].burst_time == 0) {
-            job temp = work[0].jobs[0];
+            process temp = work[0];
             work[0].jobs.erase(work[0].jobs.begin());
             work[0].arrival_time = clk;
             work[0].mark = false;
@@ -37,12 +49,19 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
                     sort(process_output.begin(), process_output.end(), compare);
                 }
             }else{
-                process_completed.push_back(work[0]);
+                process_completed.push_back(work[0]); 
+                if(&work == &process_CPU && working_on == 0){
+                    round_robin_time = 0;
+                }
             }
             table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());
+            if(&work == &process_CPU && !work.empty()){
+                working_on %= work.size();
+            }else if(work.empty()){
+                working_on = 0;
+            }
         }
-        // table(process_CPU, process_input, process_output, process_completed, clk);
     }
 }
 

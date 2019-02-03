@@ -22,6 +22,7 @@ struct process {
 
 bool compare_priority(process a, process b) { return (a.priority < b.priority); }
 bool compare(process a, process b) { return (a.arrival_time < b.arrival_time); }
+bool compare_bursttime(process a, process b) { return (a.jobs[0].burst_time < b.jobs[0].burst_time); }
 
 
 #endif

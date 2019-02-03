@@ -35,6 +35,8 @@ void fcfs(vector<process> &work, vector<process> &process_completed,
                     process_output.push_back(work[0]);
                     sort(process_output.begin(), process_output.end(), compare);
                 }
+            }else{
+                process_completed.push_back(work[0]);
             }
             table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());
