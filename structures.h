@@ -4,6 +4,15 @@
 #include<vector>
 using namespace std;
 
+#define FCFS 0
+#define SJF 1
+#define ROUNDROBIN 2
+#define LOTTERY 3
+#define PRIORITY 4
+#define MLFQ 5
+
+extern float speed;
+extern int algo;
 
 struct job {
     char type;

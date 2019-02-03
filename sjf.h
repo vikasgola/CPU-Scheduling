@@ -44,7 +44,7 @@ void sjf(vector<process> &work, vector<process> &process_completed,
             table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());
         }
-        // table(process_CPU, process_input, process_output, process_completed, clk);
+        table(process_CPU, process_input, process_output, process_completed, clk);
     }
 }
 

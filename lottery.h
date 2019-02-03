@@ -1,17 +1,30 @@
-#ifndef PRIORITY_H
-#define PRIORITY_H
-#include<vector>
-#include<unistd.h>
+#ifndef LOTTERY_H
+#define LOTTERY_H
+#include <unistd.h>
+#include <vector>
 #include<algorithm>
+#include<cstdlib>
 #include "print.h"
 #include "structures.h"
 
-void priority(vector<process> &work, vector<process> &process_completed,vector<process> &process_CPU, 
-    vector<process> &process_input,vector<process> &process_output, int &clk){
+void lottery(vector<process> &work, vector<process> &process_completed,
+          vector<process> &process_CPU, vector<process> &process_input,
+          vector<process> &process_output, int &clk) {
     if (!work.empty()) {
         work[0].mark = false;
-        if(&work == &process_CPU)
-            sort(work.begin(), work.end(), compare_priority);    
+        int total_shares = 0;
+        int lottery, curr_total_share = 0;
+        if(&work == &process_CPU){
+            for(int i=0;i<work.size();i++) total_shares += work[i].share;
+            lottery = 1 + (rand() % total_shares);
+            for(int i=0;i<work.size();i++){
+                curr_total_share += work[i].share;
+                if(curr_total_share >= lottery){
+                    swap(work[0], work[i]);
+                    break;
+                }
+            }
+        }
         work[0].mark = true;
         work[0].jobs[0].burst_time--;
         table(process_CPU, process_input, process_output, process_completed, clk);
@@ -21,7 +34,7 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
             }
         }
         if (work[0].jobs[0].burst_time == 0) {
-            job temp = work[0].jobs[0];
+            process temp = work[0];
             work[0].jobs.erase(work[0].jobs.begin());
             work[0].arrival_time = clk;
             work[0].mark = false;
@@ -37,7 +50,7 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
                     sort(process_output.begin(), process_output.end(), compare);
                 }
             }else{
-                process_completed.push_back(work[0]);
+                process_completed.push_back(work[0]); 
             }
             table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());

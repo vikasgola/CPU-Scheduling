@@ -6,18 +6,44 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "structures.h"
 
 using namespace std;
 
-#define print(a) cout << a
-#define speed 1000000/5.0
+float speed;
+int algo;
 
+#define print(a) cout << a
 
 template <typename T>
 void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk = -1) {
     
     system("clear");
-
+    print("\033[1;31m");
+    switch(algo){
+        case FCFS:
+            print("===== First Come First Serve Scheduling =====");
+            break;
+        case PRIORITY:
+            print("===== Priority Scheduling =====");
+            break;
+        case SJF:
+            print("===== Smallest Job First Scheduling =====");
+            break;
+        case LOTTERY:
+            print("===== Lottery Scheduling =====");
+            break;
+        case ROUNDROBIN:
+            print("===== Round Robin Scheduling =====");
+            break;
+        case MLFQ:
+            print("===== Multilevel Feedback Queue Scheduling =====");
+            break;
+        default:
+            break;
+    }
+    print("\n\033[0m");
+    
     if(clk != -1){
         print("\t    \033[1;32m clock: "+to_string(clk)+"\t\n");
         print("\033[0m");
@@ -60,6 +86,9 @@ void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk 
         }
         print("\n");
     }
+    print("\033[1;31m ===== ===== ===== ===== ===== =====\033[0m\n");
+
+
     usleep(speed);
 }
 
