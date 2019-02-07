@@ -7,11 +7,17 @@
 #include "structures.h"
 
 void priority(vector<process> &work, vector<process> &process_completed,vector<process> &process_CPU, 
-    vector<process> &process_input,vector<process> &process_output, int &clk){
+    vector<process> &process_input,vector<process> &process_output, int &clk, bool primitive){
+    static int flag = 0;
     if (!work.empty()) {
         work[0].mark = false;
-        if(&work == &process_CPU)
-            sort(work.begin(), work.end(), compare_priority);    
+
+        if(&work == &process_CPU && flag == 0){
+            sort(work.begin(), work.end(), compare_priority);
+            if(!primitive)
+                flag = 1;
+        }
+        
         work[0].mark = true;
         work[0].jobs[0].burst_time--;
         table(process_CPU, process_input, process_output, process_completed, clk);
@@ -45,6 +51,7 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
             }
             // table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());
+            flag = 0;
         }
         // table(process_CPU, process_input, process_output, process_completed, clk);
     }

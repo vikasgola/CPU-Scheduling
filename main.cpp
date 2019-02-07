@@ -28,7 +28,7 @@ void CPU() {
             fcfs(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
             break;
         case PRIORITY:
-            priority(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
+            priority(process_CPU, process_completed, process_CPU, process_input, process_output, clk, false);
             break;
         case SJF:
             sjf(process_CPU, process_completed, process_CPU, process_input, process_output, clk);

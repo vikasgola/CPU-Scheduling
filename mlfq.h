@@ -15,10 +15,18 @@ void mlfq(vector<process> &work, vector<process> &process_completed,
     int current_custom_priority, count[3] = {0};
     vector<int> V[3];
     int MAX_ROBIN;
+    static int reset = 0;
 
     for (int i = 0; i < work.size(); i++) {
         V[work[i].custom_priority - 1].push_back(i);
         count[work[i].custom_priority - 1]++;
+        if(reset >= 100){
+            work[i].custom_priority = 1;
+        }
+    }
+
+    if(reset >= 100){
+        reset = 0;
     }
 
     if (count[0] != 0) {
@@ -42,8 +50,7 @@ void mlfq(vector<process> &work, vector<process> &process_completed,
         } else if (current_custom_priority == 3) {
             working_on = V[2][0];
         }
-    }
-    else{
+    } else {
         working_on = V[current_custom_priority - 1][index];
     }
 
@@ -96,14 +103,15 @@ void mlfq(vector<process> &work, vector<process> &process_completed,
                 index %= V[current_custom_priority - 1].size();
                 if (work[working_on].custom_priority < 3) {
                     work[working_on].custom_priority += 1;
-                    // cout << "Move to Queue " << work[working_on].custom_priority << endl;
+                    // cout << "Move to Queue " <<
+                    // work[working_on].custom_priority << endl;
                 }
                 working_on = V[current_custom_priority - 1][index];
-                
             }
         }
     }
     previous_custom_priority = current_custom_priority;
+    reset++;
 }
 
 #endif
