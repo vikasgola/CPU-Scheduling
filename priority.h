@@ -15,6 +15,8 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
         work[0].mark = true;
         work[0].jobs[0].burst_time--;
         table(process_CPU, process_input, process_output, process_completed, clk);
+        work[0].mark = false;
+
         if (work.size() > 1) {
             for (int i = 1; i < work.size(); i++) {
                 work[i].waiting_time++;
@@ -24,7 +26,9 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
             job temp = work[0].jobs[0];
             work[0].jobs.erase(work[0].jobs.begin());
             work[0].arrival_time = clk;
-            work[0].mark = false;
+            // work[0].mark = false;
+            // table(process_CPU, process_input, process_output, process_completed, clk);
+
 
             if (!work[0].jobs.empty()) {
                 if (work[0].jobs[0].type == 'C') {
@@ -39,10 +43,10 @@ void priority(vector<process> &work, vector<process> &process_completed,vector<p
             }else{
                 process_completed.push_back(work[0]);
             }
-            table(process_CPU, process_input, process_output, process_completed, clk);
+            // table(process_CPU, process_input, process_output, process_completed, clk);
             work.erase(work.begin());
         }
-        table(process_CPU, process_input, process_output, process_completed, clk);
+        // table(process_CPU, process_input, process_output, process_completed, clk);
     }
 }
 

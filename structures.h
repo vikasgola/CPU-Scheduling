@@ -26,6 +26,7 @@ struct process {
     int share;
     int waiting_time;
     bool mark;
+    int custom_priority;
     vector<job> jobs;
 };
 

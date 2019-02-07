@@ -35,15 +35,15 @@ void CPU() {
             lottery(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
             break;
         case ROUNDROBIN:
-            roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
+            roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk, 1);
             break;
         case MLFQ:
-            roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
+            roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk, 1);
             break;
         default:
             break;
     }
-    lottery(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
+    // lottery(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
 }
 
 void startProcessing(vector<process> &tprocess_list) {
@@ -75,7 +75,7 @@ void startProcessing(vector<process> &tprocess_list) {
             input();
             output();
             CPU();
-            table(process_CPU, process_input, process_output, process_completed, clk);
+            // table(process_CPU, process_input, process_output, process_completed, clk);
             clk++;
     }
     table(process_CPU, process_input, process_output, process_completed, clk);

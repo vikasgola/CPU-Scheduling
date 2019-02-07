@@ -6,17 +6,19 @@
 #include "print.h"
 #include "structures.h"
 
-#define MAX_ROBIN 1
+// #define MAX_ROBIN 1
 
 void roundrobin(vector<process> &work, vector<process> &process_completed,
           vector<process> &process_CPU, vector<process> &process_input,
-          vector<process> &process_output, int &clk) {
+          vector<process> &process_output, int &clk, int MAX_ROBIN) {
     static int working_on = 0;
     static int round_robin_time = 0;
     if (!work.empty()) {
         work[working_on].mark = true;
         work[working_on].jobs[0].burst_time--;
         table(process_CPU, process_input, process_output, process_completed, clk);
+        work[working_on].mark = false;
+
         if (work.size() > 1) {
             for (int i = 1; i < work.size(); i++) {
                 work[i].waiting_time++;
@@ -26,7 +28,9 @@ void roundrobin(vector<process> &work, vector<process> &process_completed,
             process temp = work[working_on];
             work[working_on].jobs.erase(work[working_on].jobs.begin());
             work[working_on].arrival_time = clk;
-            work[working_on].mark = false;
+            // work[working_on].mark = false;
+            // table(process_CPU, process_input, process_output, process_completed, clk);    
+
 
             if (!work[working_on].jobs.empty()) {
                 if (work[working_on].jobs[0].type == 'C') {
@@ -42,11 +46,13 @@ void roundrobin(vector<process> &work, vector<process> &process_completed,
                 process_completed.push_back(work[working_on]); 
             }
 
-            if(&work == &process_CPU && !work.empty()){
+            // if(&work == &process_CPU && !work.empty()){
                 round_robin_time++;
                 if(round_robin_time == MAX_ROBIN){
                     round_robin_time = 0;
-                    work[working_on].mark = false;
+                    // work[working_on].mark = false;
+                    // table(process_CPU, process_input, process_output, process_completed, clk);    
+
                     work.erase(work.begin()+working_on);
                     if(!work.empty()){
                         working_on %= work.size();
@@ -55,10 +61,19 @@ void roundrobin(vector<process> &work, vector<process> &process_completed,
                         working_on = 0;
                     }
                 }
-            }
-            table(process_CPU, process_input, process_output, process_completed, clk);    
+            // }
+            // table(process_CPU, process_input, process_output, process_completed, clk);    
         }
-        table(process_CPU, process_input, process_output, process_completed, clk);
+        else{
+            // working_on ++;
+            round_robin_time++;
+                if(round_robin_time == MAX_ROBIN){
+                    round_robin_time = 0;
+                        working_on++;
+                        working_on %= work.size();
+                }
+        }
+        // table(process_CPU, process_input, process_output, process_completed, clk);
     }
 }
 
