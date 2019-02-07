@@ -6,6 +6,8 @@
 #include "lottery.h"
 #include "read.h"
 #include "structures.h"
+#include "mlfq.h"
+
 
 int clk = 0;
 vector<process> process_CPU, process_input, process_output, process_completed;
@@ -38,7 +40,7 @@ void CPU() {
             roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk, 1);
             break;
         case MLFQ:
-            roundrobin(process_CPU, process_completed, process_CPU, process_input, process_output, clk, 1);
+            mlfq(process_CPU, process_completed, process_CPU, process_input, process_output, clk);
             break;
         default:
             break;
