@@ -8,8 +8,9 @@ using namespace std;
 #define SJF 1
 #define ROUNDROBIN 2
 #define LOTTERY 3
-#define PRIORITY 4
-#define MLFQ 5
+#define PRIORITY_PRIMITIVE 4
+#define PRIORITY_NON_PRIMITIVE 5
+#define MLFQ 6
 
 extern float speed;
 extern int algo;

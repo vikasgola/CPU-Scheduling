@@ -29,15 +29,18 @@ void showProcess(vector<process> t, int check){
 template <typename T>
 void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk = -1) {
     int aveage_wait_time = 0, average_n = 0;
-
-    system("clear");
+    if(speed > 10000.0)
+        system("clear");
     print("\033[1;31m");
     switch(algo){
         case FCFS:
             print("=============== First Come First Serve Scheduling ===============");
             break;
-        case PRIORITY:
-            print("=============== Priority Scheduling ===============");
+        case PRIORITY_PRIMITIVE:
+            print("=============== Priority Scheduling (Primitive) ===============");
+            break;
+        case PRIORITY_NON_PRIMITIVE:
+            print("=============== Priority Scheduling (Non Primitive) ===============");
             break;
         case SJF:
             print("=============== Smallest Job First Scheduling ===============");
@@ -102,7 +105,8 @@ void table(vector<T> cpu, vector<T> inp, vector<T> out, vector<T> comp, int clk 
     }
     
     print("\033[1;31m ===== ===== ===== ===== ===== ===== ===== ===== ===== =====\033[0m\n");
-    usleep(speed);
+    if(speed > 10000.0)
+        usleep(speed);
 }
 
 #endif
