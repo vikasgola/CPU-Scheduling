@@ -4,8 +4,10 @@ CPU scheduling is a process which allows one process to use the CPU whilethe exe
 ## How to Run
 - chmod +x run.sh
 - ./run.sh filename speed
+
 e.g.
+
     `./run.sh test_cases/test_case_0.dat 10.0`
 
 ## How to generate new random Test Cases
-./run.sh -gt
+- ./run.sh -gt
